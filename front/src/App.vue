@@ -1,15 +1,20 @@
 <template>
  
   <Topo msg="Welcome to Your Vue.js App"/>
+
+  <Rodape />
+
 </template>
 
 <script>
 import Topo from './components/Topo.vue'
+import Rodape from './components/Rodape.vue'
 
 export default {
   name: 'App',
   components: {
-    Topo
+    Topo,
+    Rodape
   }
 }
 </script>

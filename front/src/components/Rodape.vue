@@ -1,19 +1,12 @@
 <template>
   <div class="rodape">
-    <h1>{{ msg }}</h1>
-  <div class="usuario">
-     <img alt="Vue logo" src="../assets/logo.png">
-    </div>
-  
+   
   </div>
 </template>
 
 <script>
 export default {
   name: 'Rodape',
-  props: {
-    msg: String
-  }
 }
 </script>
 
@@ -31,14 +24,6 @@ export default {
     padding-right: 15px;
     box-sizing: border-box;
 }
-
-.rodape .usuario img{
-width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    -o-object-fit: cover;
-    object-fit: cover;
-    background: #ffffff;
-}
+ 
 
 </style>
