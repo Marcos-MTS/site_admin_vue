@@ -1,5 +1,12 @@
 <template>
   <div class="topo">
+  
+  <div v-on:click="abreFechaMenu" class="menu-ativador" v-bind:class="{ 'aberto': menuAberto }">
+    <span class="linha"></span>
+    <span class="linha"></span>
+    <span class="linha"></span>
+  </div>
+  
     <h1>{{ msg }}</h1>
   <div class="usuario">
      <img alt="Vue logo" src="../assets/logo.png">
@@ -13,6 +20,14 @@ export default {
   name: 'Topo',
   props: {
     msg: String
+  },
+data() {
+    return { menuAberto: false }
+  },
+  methods:{
+    abreFechaMenu(){
+      this.menuAberto = true
+    }
   }
 }
 </script>
@@ -20,10 +35,26 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.menu-ativador{
+      display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-ativador .linha{
+  width: 45px;
+  height: 4px;
+  background: rgb(255, 255, 255);
+}
+
+.menu-ativador.aberto .linha{
+    background: red;
+}
+
 .topo{
     height: 60px;
     width: 100%;
-    background: #ddd;
+    background: #6075c3;
     display: flex;
     justify-content: space-between;
     align-items: center;

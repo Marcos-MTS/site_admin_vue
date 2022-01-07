@@ -23,6 +23,8 @@ export default {
     padding-left: 15px;
     padding-right: 15px;
     box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
 }
  
 
