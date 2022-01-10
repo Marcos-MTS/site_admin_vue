@@ -1,5 +1,5 @@
 <template>
-  <div class="conteudo">
+  <div class="content">
     <h3 class="form-titulo">Cadastro de notícias</h3>
     <div class="input-area">
         <label for="titulo">Título</label>
@@ -9,13 +9,22 @@
         <label for="autor">Autor</label>
       <input type="text" name="autor" id="autor">
     </div>
+
+     <div class="input-area">
+         <Button title="Salvar" type="save"/>
+         </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: "Cadastro",
+import Button from "../../components/Button.vue";
 
+export default {
+    
+  name: "Create",
+components:{
+    Button
+},
   data() {
     return {};
   },
@@ -50,7 +59,7 @@ export default {
     margin-bottom: 15px;
 }
 
-.conteudo{
+.content{
       padding: 25px 25px;
 }
 

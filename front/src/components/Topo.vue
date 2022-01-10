@@ -12,15 +12,18 @@
 
     <nav class="menu" v-bind:class="{ aberto: menuAberto }">
       <ul>
+        <li v-on:click="abreMenu"><router-link to="/">Dashboard</router-link></li>
         <li class="tem-sub-itens">
           Notícias
-          <div class="sub-itens">
-            <div class="sub-item">Listar</div>
-            <div class="sub-item">Cadastrar</div>
+          <div v-on:click="abreMenu" class="sub-itens">
+            <router-link to="/news-list" class="sub-item">Listar</router-link>
+            <router-link to="/news-create" class="sub-item"
+              >Cadastrar</router-link
+            >
           </div>
         </li>
-        <li>Sobre</li>
-        <li>Galeria</li>
+        <li v-on:click="abreMenu">Sobre</li>
+        <li v-on:click="abreMenu">Galeria</li>
       </ul>
     </nav>
 
@@ -124,7 +127,8 @@ export default {
   left: 0;
 }
 
-.menu ul li {
+.menu ul li,
+.menu ul a {
   color: #ffffff;
   padding: 5px 5px;
   list-style: none;
@@ -135,9 +139,10 @@ export default {
   background: #8ca1f0;
   cursor: pointer;
 }
-.tem-sub-itens .sub-itens{
+.tem-sub-itens .sub-itens {
   margin-left: 15px;
-    padding: 5px 0;
+  padding: 5px 0;
+  display: flex;
+    flex-direction: column;
 }
-
 </style>

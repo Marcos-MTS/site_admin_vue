@@ -1,7 +1,8 @@
 <template>
   <Topo msg="Painel de Controle" />
+
   <div class="centro">
-    <NoticiasCadastro />
+   <router-view/>
   </div>
   <Rodape />
 </template>
@@ -10,15 +11,12 @@
 import Topo from "./components/Topo.vue";
 import Rodape from "./components/Rodape.vue";
 
-//noticias
-import NoticiasCadastro from "./components/noticias/Cadastro.vue";
 
 export default {
   name: "App",
   components: {
     Topo,
     Rodape,
-    NoticiasCadastro,
   },
 };
 </script>
@@ -29,6 +27,10 @@ export default {
   margin: 0;
 }
 
+a{
+  text-decoration: none;
+}
+
 .centro{
   max-width: 1200px;
     margin-left: auto;
@@ -37,10 +39,11 @@ export default {
     border: solid 1px #ddd;
     margin-top: 20px;
 }
-
-
 #app {
   font-family: "Poppins", sans-serif;
   color: #2c3e50;
 }
+
+
+
 </style>
