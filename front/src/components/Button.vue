@@ -15,11 +15,12 @@ export default {
 <style scoped>
 
 button{
- 
- height: 35px;
- width: 70px;
- color: #ffffff;
- border: none;
+height: 45px;
+    width: 120px;
+    color: #ffffff;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
  }
 
  button.save{
