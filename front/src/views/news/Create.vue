@@ -1,11 +1,11 @@
 <template>
   <div class="content">
     <h3 class="form-titulo">Cadastro de notícias</h3>
-    <form ref="form" @submit.prevent="submit">
+    <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
         <label for="titulo">Título</label>
         <input
-          v-model="titulo"
+          v-model="form.title"
           type="text"
           name="titulo"
           id="titulo"
@@ -14,7 +14,7 @@
       </div>
       <div class="input-area">
         <label for="autor">Autor</label>
-        <input v-model="autor" type="text" name="autor" id="autor" />
+        <input v-model="form.author" type="text" name="autor" id="autor" />
       </div>
       <div class="input-area">
         <Button title="Salvar" type="save" />
@@ -25,6 +25,7 @@
 
 <script>
 import Button from "../../components/Button.vue";
+import api from "../../services/api.js";
 
 export default {
   name: "Create",
@@ -33,23 +34,28 @@ export default {
   },
   data() {
     return {
-      titulo: "",
-      autor: "",
+      form: {
+        title: "",
+        author: "",
+      },
     };
   },
   methods: {
-    cadastrar() {
-      alert(this.titulo);
-    },
-
+ 
     submit: function () {
-      const formData = new FormData(this.$refs["form"]); // reference to form element
-      const data = {}; // need to convert it before using not with XMLHttpRequest
-      for (let [key, val] of formData.entries()) {
-        Object.assign(data, { [key]: val });
-      }
+      api.post("/news", this.form)
+        .then((res) => {
 
-      console.log(data);
+          console.log(res)
+          //Perform Success Action
+        })
+        .catch((error) => {
+          console.log(error)
+          // error.response.status Check status code
+        })
+        .finally(() => {
+          //Perform action in always
+        });
     },
   },
 };
