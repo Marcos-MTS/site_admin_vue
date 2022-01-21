@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 use Illuminate\Http\Request;
+use App\Http\Resources\News as NewsResource;
+ 
 
 class NewsController extends Controller
 {
     
-    
-    
     public function index()
     {
 
-        echo "TESTE";
-      //  $artigos = Artigo::paginate(15);
-      //  return ArtigoResource::collection($artigos);
+        $news = News::paginate(5);
+        return NewsResource::collection($news);
     }
 
     public function show($id)
@@ -32,7 +31,7 @@ class NewsController extends Controller
         $news->author = $request->input('author');
 
         if ($news->save()) {
-          //  return new ArtigoResource($artigo);
+            return new NewsResource($news);
         }
     }
 

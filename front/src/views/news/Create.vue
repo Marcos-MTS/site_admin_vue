@@ -2,6 +2,7 @@
   <div class="content">
     <h3 class="form-titulo">Cadastro de notícias</h3>
     <form ref="form" @submit.prevent="submit" id="form-area">
+      <Message ref="Message" />
       <div class="input-area">
         <label for="titulo">Título</label>
         <input
@@ -14,7 +15,13 @@
       </div>
       <div class="input-area">
         <label for="autor">Autor</label>
-        <input v-model="form.author" type="text" name="autor" id="autor" />
+        <input
+          v-model="form.author"
+          type="text"
+          name="autor"
+          id="autor"
+          required
+        />
       </div>
       <div class="input-area">
         <Button title="Salvar" type="save" />
@@ -25,12 +32,14 @@
 
 <script>
 import Button from "../../components/Button.vue";
+import Message from "../../components/Message.vue";
 import api from "../../services/api.js";
 
 export default {
   name: "Create",
   components: {
     Button,
+    Message,
   },
   data() {
     return {
@@ -40,18 +49,24 @@ export default {
       },
     };
   },
-  methods: {
- 
-    submit: function () {
-      api.post("/news", this.form)
-        .then((res) => {
 
-          console.log(res)
-          //Perform Success Action
+  methods: {
+    submit: function () {
+      this.$refs.Message.show("Aguarde", "loading");
+
+      api
+        .post("/news", this.form)
+        .then((res) => {
+          if (res.status == 201) {
+            this.form.title = "";
+            this.form.author = "";
+            this.$refs.Message.show("Cadastrado com sucesso!", "success");
+          } else {
+            alert(res.statusText);
+          }
         })
         .catch((error) => {
-          console.log(error)
-          // error.response.status Check status code
+          console.log(error);
         })
         .finally(() => {
           //Perform action in always
