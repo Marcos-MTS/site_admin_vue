@@ -21,11 +21,16 @@ export default {
       }
     },
 
-    close: function () {
-      setTimeout(() => {
+    close: function (timer = true) {
+      if (timer) {
+        setTimeout(() => {
+          this.msg = "";
+          this.type = "";
+        }, 2000);
+      } else {
         this.msg = "";
         this.type = "";
-      }, 2000);
+      }
     },
   },
 };
@@ -49,16 +54,16 @@ export default {
 
 .message.success {
   background: #21bd77;
-   top: 50px;
+  top: 50px;
 }
 
 .message.error {
   background: #d34b4b;
-   top: 50px;
+  top: 50px;
 }
 
 .message.loading {
   background: #e0bf04;
-   top: 50px;
+  top: 50px;
 }
 </style>

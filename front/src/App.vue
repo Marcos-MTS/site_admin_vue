@@ -45,5 +45,17 @@ a{
 }
 
 
+.center-text{
+  text-align: center;
+}
+
+.right-text{
+  text-align: right;
+}
+
+.left-text{
+  text-align: left;
+}
+
 
 </style>

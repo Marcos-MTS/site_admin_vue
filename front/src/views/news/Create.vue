@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <h3 class="form-titulo">Cadastro de notícias</h3>
+    <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
-      <Message ref="Message" />
       <div class="input-area">
         <label for="titulo">Título</label>
         <input
@@ -53,23 +53,20 @@ export default {
   methods: {
     submit: function () {
       this.$refs.Message.show("Aguarde", "loading");
-
       api
         .post("/news", this.form)
         .then((res) => {
-          if (res.status == 201) {
+          if (res.status === 201) {
             this.form.title = "";
             this.form.author = "";
             this.$refs.Message.show("Cadastrado com sucesso!", "success");
           } else {
-            alert(res.statusText);
+            console.log(res.statusText);
+            this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
           }
         })
         .catch((error) => {
           console.log(error);
-        })
-        .finally(() => {
-          //Perform action in always
         });
     },
   },
