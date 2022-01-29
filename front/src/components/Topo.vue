@@ -22,6 +22,15 @@
             >
           </div>
         </li>
+         <li class="tem-sub-itens">
+          Categorias
+          <div v-on:click="abreMenu" class="sub-itens">
+            <router-link to="/categories-list" class="sub-item">Listar</router-link>
+            <router-link to="/categories-create" class="sub-item"
+              >Cadastrar</router-link
+            >
+          </div>
+        </li>
         <li v-on:click="abreMenu">Sobre</li>
         <li v-on:click="abreMenu">Galeria</li>
       </ul>
@@ -60,11 +69,11 @@ export default {
 .menu-ativador {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .menu-ativador .linha {
-  width: 45px;
+  width: 40px;
   height: 4px;
   background: rgb(255, 255, 255);
   transition: 0.5s;

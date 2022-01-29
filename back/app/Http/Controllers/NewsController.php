@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\News;
 use Illuminate\Http\Request;
 use App\Http\Resources\News as NewsResource;
- 
+
 
 class NewsController extends Controller
 {
-    
+
     public function index()
     {
         $news = News::paginate(10);
@@ -19,8 +19,8 @@ class NewsController extends Controller
 
     public function show($id)
     {
-      //  $artigo = Artigo::findOrFail($id);
-       // return new ArtigoResource($artigo);
+        $news = News::findOrFail($id);
+        return new NewsResource($news);
     }
 
     public function store(Request $request)
@@ -36,21 +36,20 @@ class NewsController extends Controller
 
     public function update(Request $request)
     {
-      //  $artigo = Artigo::findOrFail($request->id);
-       // $artigo->titulo = $request->input('titulo');
-       // $artigo->conteudo = $request->input('conteudo');
+        $news = News::findOrFail($request->id);
+        $news->title = $request->input('title');
+        $news->author = $request->input('author');
 
-       // if ($artigo->save()) {
-       //     return new ArtigoResource($artigo);
-       // }
+        if ($news->save()) {
+            return new NewsResource($news);
+        }
     }
 
     public function destroy($id)
     {
-       // $artigo = Artigo::findOrFail($id);
-       // if ($artigo->delete()) {
-       //     return new ArtigoResource($artigo);
-       // }
+        $news = News::findOrFail($id);
+        if ($news->delete()) {
+            return new NewsResource($news);
+        }
     }
-
 }

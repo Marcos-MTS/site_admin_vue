@@ -58,4 +58,60 @@ a{
 }
 
 
+.input-area {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.input-area input {
+  height: 28px;
+  font-size: 1em;
+  padding: 4px 8px;
+  border: solid 1px #ddd;
+  box-shadow: 0px 0px 2px #dfdfdf;
+}
+
+.input-area label {
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.form-titulo {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.content {
+  padding: 25px;
+  box-shadow: 1px 0px 10px #ebebeb;
+}
+
+.list-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.list-table th {
+  border-top: solid #ddd 1px;
+  border-bottom: solid #ddd 1px;
+  padding: 10px;
+}
+.list-table td {
+  border-bottom: solid #ddd 1px;
+  padding: 8px;
+}
+
+.list-table .options {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.list-table .options-title {
+  max-width: 140px;
+}
+
 </style>

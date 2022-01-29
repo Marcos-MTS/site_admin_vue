@@ -1,12 +1,12 @@
 <template>
   <div class="content">
-    <h3 class="form-titulo">Cadastro de notícias</h3>
+    <h3 class="form-titulo">Cadastro de Categorias</h3>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
-        <label for="titulo">Título</label>
+        <label for="titulo">Nome</label>
         <input
-          v-model="formData.title"
+          v-model="formData.name"
           type="text"
           name="titulo"
           id="titulo"
@@ -14,9 +14,9 @@
         />
       </div>
       <div class="input-area">
-        <label for="autor">Autor</label>
+        <label for="autor">Descrição</label>
         <input
-          v-model="formData.author"
+          v-model="formData.description"
           type="text"
           name="autor"
           id="autor"
@@ -51,11 +51,11 @@ export default {
     submit: function () {
       this.$refs.Message.show("Aguarde", "loading");
       api
-        .post("/news", this.formData)
+        .post("/categories", this.formData)
         .then((res) => {
           if (res.status === 201) {
-            this.formData.title = "";
-            this.formData.author = "";
+            this.formData.name = "";
+            this.formData.description = "";
             this.$refs.Message.show("Cadastrado com sucesso!", "success");
           } else {
             console.log(res.statusText);

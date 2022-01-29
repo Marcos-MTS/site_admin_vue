@@ -1,19 +1,17 @@
 <template>
   <div class="content">
-    <h3 class="form-titulo">Lista de notícias</h3>
+    <h3 class="form-titulo">Lista de Categorias</h3>
     <Message ref="Message" />
     <table class="list-table">
       <tr>
-        <th class="left-text">Título</th>
-        <th class="left-text">Autor</th>
+        <th class="left-text">Nome</th>
         <th class="right-text">Opções</th>
       </tr>
       <tr v-for="item in formData.data" :key="item.id">
-        <td class="left-text">{{ item.title }}</td>
-        <td class="left-text">{{ item.author }}</td>
+        <td class="left-text">{{ item.name }}</td>
         <td class="options">
           <router-link
-            v-bind:to="{ name: 'NewsEdit', params: { id: item.id } }"
+            v-bind:to="{ name: 'CategoriesEdit', params: { id: item.id } }"
             title="Editar"
             ><Icon icon="clarity:edit-solid" color="#6075c3" width="25"
           /></router-link>
@@ -49,7 +47,7 @@ export default {
   mounted() {
     this.$refs.Message.show("Carregando...", "loading");
     api
-      .get("/news")
+      .get("/categories")
       .then((res) => {
         this.$refs.Message.close(false);
         if (res.status === 200) {
@@ -66,11 +64,10 @@ export default {
 
   methods: {
     remove: function (id) {
-      
       this.$refs.Message.show("Aguarde", "loading");
 
       api
-        .delete("/news/" + id)
+        .delete("/categories/" + id)
         .then((res) => {
           if (res.status === 200) {
             this.formData.data = this.formData.data.filter(function (event) {

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,19 @@ Route::put('/news/{id}', [NewsController::class, 'update']);
 
 // Exclui a notícia
 Route::delete('/news/{id}', [NewsController::class,'destroy']);
+
+
+// Lista as categorias
+Route::get('/categories', [CategoriesController::class, 'index']);
+
+// Retorna uma unica categoria
+Route::get('/categories/{id}', [CategoriesController::class, 'show']);
+
+// Cria uma nova categoria
+Route::post('/categories', [CategoriesController::class, 'store']);
+
+// Atualiza a categoria
+Route::put('/categories/{id}', [CategoriesController::class, 'update']);
+
+// Exclui a categoria
+Route::delete('/categories/{id}', [CategoriesController::class,'destroy']);

@@ -1,12 +1,12 @@
 <template>
   <div class="content">
-    <h3 class="form-titulo">Cadastro de notícias</h3>
+    <h3 class="form-titulo">Edição de Categorias</h3>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
-        <label for="titulo">Título</label>
+        <label for="titulo">Nome</label>
         <input
-          v-model="formData.title"
+          v-model="formData.name"
           type="text"
           name="titulo"
           id="titulo"
@@ -14,9 +14,9 @@
         />
       </div>
       <div class="input-area">
-        <label for="autor">Autor</label>
+        <label for="autor">Descrição</label>
         <input
-          v-model="formData.author"
+          v-model="formData.description"
           type="text"
           name="autor"
           id="autor"
@@ -36,7 +36,7 @@ import Message from "../../components/Message.vue";
 import api from "../../services/api.js";
 
 export default {
-  name: "Create",
+  name: "Edit",
   components: {
     Button,
     Message,
@@ -47,16 +47,39 @@ export default {
     };
   },
 
+  props: {
+    id: {
+      required: true,
+      type: String,
+    },
+  },
+
+  mounted() {
+    // this.$refs.Message.show("Carregando...", "loading");
+    api
+      .get("/categories/" + this.id)
+      .then((res) => {
+        if (res.status === 200) {
+          //  this.$refs.Message.close();
+          this.formData = res.data.data;
+        } else {
+          console.log(res.statusText);
+          this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
   methods: {
     submit: function () {
       this.$refs.Message.show("Aguarde", "loading");
       api
-        .post("/news", this.formData)
+        .put("/categories/" + this.id, this.formData)
         .then((res) => {
-          if (res.status === 201) {
-            this.formData.title = "";
-            this.formData.author = "";
-            this.$refs.Message.show("Cadastrado com sucesso!", "success");
+          if (res.status === 200) {
+            this.$refs.Message.show("Editado com sucesso!", "success");
           } else {
             console.log(res.statusText);
             this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
