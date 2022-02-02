@@ -9,14 +9,14 @@ const client = axios.create({
 export default {
     async execute(method, resource, data) {
         // inject the accessToken for each request
-     //   let accessToken = await Vue.prototype.$auth.getAccessToken()
+        //   let accessToken = await Vue.prototype.$auth.getAccessToken()
         return client({
             method,
             url: resource,
             data,
-         //   headers: {
-         //       Authorization: `Bearer ${accessToken}`
-          //  }
+            //   headers: {
+            //       Authorization: `Bearer ${accessToken}`
+            //  }
         }).then(req => {
             return req.data
         })
@@ -35,5 +35,32 @@ export default {
     },
     deletePost(id) {
         return this.execute('delete', `/news/${id}`)
+    },
+
+
+
+    get2(controller, id = "") {
+        return this.execute('get', '/' + controller + '/' + id)
+    },
+
+
+
+    get3() {
+
+
+
+        client.get("/categories")
+            .then((res) => {
+                this.$refs.Message.close(false);
+                if (res.status === 200) {
+                    this.formData = res.data;
+                } else {
+                    console.log(res.statusText);
+                    this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }

@@ -1,8 +1,23 @@
 <template>
-  <div class="message" :class="type">{{ msg }}</div>
+  <div class="message" :class="type">
+    <div v-if="this.type == 'loading'" class="loader-area">
+      <div class="loader"></div>
+    </div>
+    <div v-if="this.type == 'success'" class="icone-area">
+      <Icon icon="clarity:success-standard-solid" width="28" />
+    </div>
+    <div v-if="this.type == 'error'" class="icone-area">
+      <Icon icon="bx:bx-error" width="28" />
+    </div>
+    <div class="message-area">
+      {{ msg }}
+    </div>
+  </div>
 </template>
 
 <script>
+import { Icon } from "@iconify/vue";
+
 export default {
   name: "Message",
   data() {
@@ -10,6 +25,9 @@ export default {
       msg: "",
       type: "",
     };
+  },
+  components: {
+    Icon,
   },
   methods: {
     show: function (msg, type) {
@@ -50,6 +68,24 @@ export default {
   color: #ffffff;
   border-radius: 10px;
   transition: 0.4s;
+  display: flex;
+  align-items: center;
+}
+
+.message-area {
+  width: 100%;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.loader-area {
+  display: contents;
+}
+
+.icone-area {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
 }
 
 .message.success {
@@ -65,5 +101,30 @@ export default {
 .message.loading {
   background: #e0bf04;
   top: 50px;
+}
+
+.loader {
+  display: inline-block;
+  width: 27px;
+  height: 27px;
+}
+.loader:after {
+  content: " ";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  -webkit-animation: loader-61d2d687 1.2s linear infinite;
+  animation: loader-61d2d687 1.2s linear infinite;
+}
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

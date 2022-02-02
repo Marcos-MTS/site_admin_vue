@@ -1,6 +1,11 @@
 <template>
   <div class="content">
-    <h3 class="form-titulo">Lista de Categorias</h3>
+   <div class="content-header">
+      <h3 class="form-titulo">Lista de Categorias</h3>
+      <router-link to="categories-create"
+        ><Button title="Adicionar" type="new" class="right"
+      /></router-link>
+    </div>
     <Message ref="Message" />
     <table class="list-table">
       <tr>
@@ -31,6 +36,7 @@
 <script>
 import api from "../../services/api.js";
 import Message from "../../components/Message.vue";
+import Button from "../../components/Button.vue";
 import { Icon } from "@iconify/vue";
 
 export default {
@@ -38,6 +44,7 @@ export default {
   components: {
     Icon,
     Message,
+    Button
   },
   data() {
     return {

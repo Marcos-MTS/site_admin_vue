@@ -55,12 +55,10 @@ export default {
   },
 
   mounted() {
-    // this.$refs.Message.show("Carregando...", "loading");
     api
       .get("/categories/" + this.id)
       .then((res) => {
         if (res.status === 200) {
-          //  this.$refs.Message.close();
           this.formData = res.data.data;
         } else {
           console.log(res.statusText);

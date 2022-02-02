@@ -1,6 +1,11 @@
 <template>
   <div class="content">
-    <h3 class="form-titulo">Lista de notícias</h3>
+    <div class="content-header">
+      <h3 class="form-titulo">Lista de Notícias</h3>
+      <router-link to="news-create"
+        ><Button title="Adicionar" type="new" class="right"
+      /></router-link>
+    </div>
     <Message ref="Message" />
     <table class="list-table">
       <tr>
@@ -27,46 +32,63 @@
         </td>
       </tr>
     </table>
+
+    <Pagination
+      @loadData="loadData"
+      :links="this.paginationData.links"
+      :total="this.paginationData.total"
+      :active="this.paginationData.active"
+    />
   </div>
 </template>
 
 <script>
 import api from "../../services/api.js";
 import Message from "../../components/Message.vue";
+import Button from "../../components/Button.vue";
+import Pagination from "../../components/Pagination.vue";
 import { Icon } from "@iconify/vue";
 
 export default {
-  name: "Create",
+  name: "List",
   components: {
     Icon,
     Message,
+    Button,
+    Pagination,
   },
   data() {
     return {
       formData: [],
+      paginationData: [],
     };
   },
   mounted() {
-    this.$refs.Message.show("Carregando...", "loading");
-    api
-      .get("/news")
-      .then((res) => {
-        this.$refs.Message.close(false);
-        if (res.status === 200) {
-          this.formData = res.data;
-        } else {
-          console.log(res.statusText);
-          this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.loadData();
   },
-
   methods: {
+    loadData: function (page = 1) {
+      this.$refs.Message.show("Carregando...", "loading");
+      api
+        .get("/news?page=" + page)
+        .then((res) => {
+          this.$refs.Message.close(false);
+          if (res.status === 200) {
+            this.formData = res.data;
+            this.paginationData.links = res.data.links;
+            this.paginationData.total = res.data.meta.last_page;
+            this.paginationData.active = parseInt(page);
+          } else {
+            console.log(res.statusText);
+            this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     remove: function (id) {
-      
       this.$refs.Message.show("Aguarde", "loading");
 
       api

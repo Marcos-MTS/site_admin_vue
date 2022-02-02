@@ -80,12 +80,15 @@ a{
 .form-titulo {
   font-size: 20px;
   margin-bottom: 15px;
+  display: inline-flex;
 }
 
 .content {
   padding: 25px;
   box-shadow: 1px 0px 10px #ebebeb;
 }
+ 
+
 
 .list-table {
   width: 100%;
@@ -112,6 +115,14 @@ a{
 
 .list-table .options-title {
   max-width: 140px;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
 }
 
 </style>
