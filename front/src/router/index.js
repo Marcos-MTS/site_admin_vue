@@ -8,6 +8,8 @@ import NewsEdit from '../views/news/Edit'
 import CategoriesCreate from '../views/categories/Create'
 import CategoriesList from '../views/categories/List'
 import CategoriesEdit from '../views/categories/Edit'
+//Login
+import Login from '../views/login/login'
 
 const routes = [
   {
@@ -19,7 +21,7 @@ const routes = [
   {
     path: '/news-create',
     name: 'NewsCreate',
-    component: NewsCreate
+    component: NewsCreate,
   },
   {
     path: '/news-list',
@@ -48,7 +50,14 @@ const routes = [
     name: 'CategoriesEdit',
     component: CategoriesEdit,
     props: true
-  }
+  },
+  //Login
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+
 ]
 
 const router = createRouter({

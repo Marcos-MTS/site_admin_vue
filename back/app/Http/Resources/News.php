@@ -20,6 +20,8 @@ class News extends JsonResource
         'id' => $this->id,
         'title' => $this->title,
         'author' => $this->author,
+        'categorie_id' => $this->categorie_id,
+        'categorie' => $this->categorie,
       ];
     }
 }

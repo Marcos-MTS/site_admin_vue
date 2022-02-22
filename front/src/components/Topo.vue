@@ -12,7 +12,9 @@
 
     <nav class="menu" v-bind:class="{ aberto: menuAberto }">
       <ul>
-        <li v-on:click="abreMenu"><router-link to="/">Dashboard</router-link></li>
+        <li v-on:click="abreMenu">
+          <router-link to="/">Dashboard</router-link>
+        </li>
         <li class="tem-sub-itens">
           Notícias
           <div v-on:click="abreMenu" class="sub-itens">
@@ -22,10 +24,12 @@
             >
           </div>
         </li>
-         <li class="tem-sub-itens">
+        <li class="tem-sub-itens">
           Categorias
           <div v-on:click="abreMenu" class="sub-itens">
-            <router-link to="/categories-list" class="sub-item">Listar</router-link>
+            <router-link to="/categories-list" class="sub-item"
+              >Listar</router-link
+            >
             <router-link to="/categories-create" class="sub-item"
               >Cadastrar</router-link
             >
@@ -36,7 +40,7 @@
       </ul>
     </nav>
 
-    <h1>{{ msg }}</h1>
+    <h1>{{ title }}</h1>
     <div class="usuario">
       <img alt="Vue logo" src="../assets/logo.png" />
     </div>
@@ -47,7 +51,7 @@
 export default {
   name: "Topo",
   props: {
-    msg: String,
+    title: String,
   },
   data() {
     return { menuAberto: false };
@@ -108,7 +112,14 @@ export default {
 
 .topo h1 {
   color: #ffffff;
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: 300;
+}
+
+.topo .usuario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .topo .usuario img {
@@ -152,6 +163,6 @@ export default {
   margin-left: 15px;
   padding: 5px 0;
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
 }
 </style>

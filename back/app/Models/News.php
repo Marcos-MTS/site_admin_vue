@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class News extends Model
 {
     use HasFactory;
+
+    public function categorie()
+    {
+        return $this->belongsTo(Categories::class, foreignKey:'categorie_id');
+    }
     
 }

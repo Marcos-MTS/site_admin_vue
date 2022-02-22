@@ -1,8 +1,8 @@
 <template>
-  <Topo msg="Painel de Controle" />
+  <Topo title="Painel de Controle" />
 
   <div class="centro">
-   <router-view/>
+    <router-view />
   </div>
   <Rodape />
 </template>
@@ -10,7 +10,6 @@
 <script>
 import Topo from "./components/Topo.vue";
 import Rodape from "./components/Rodape.vue";
-
 
 export default {
   name: "App",
@@ -27,36 +26,33 @@ export default {
   margin: 0;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
-.centro{
+.centro {
   max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
-    border: solid 1px #ddd;
-    margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  margin-top: 20px;
 }
 #app {
   font-family: "Poppins", sans-serif;
   color: #2c3e50;
 }
 
-
-.center-text{
+.center-text {
   text-align: center;
 }
 
-.right-text{
+.right-text {
   text-align: right;
 }
 
-.left-text{
+.left-text {
   text-align: left;
 }
-
 
 .input-area {
   display: flex;
@@ -64,12 +60,19 @@ a{
   margin-bottom: 15px;
 }
 
-.input-area input {
+.input-area input,
+.input-area select {
   height: 28px;
   font-size: 1em;
   padding: 4px 8px;
   border: solid 1px #ddd;
   box-shadow: 0px 0px 2px #dfdfdf;
+  box-sizing: content-box;
+  color: #6a6a6a;
+}
+
+.input-area select option {
+  padding: 5px;
 }
 
 .input-area label {
@@ -85,10 +88,14 @@ a{
 
 .content {
   padding: 25px;
-  box-shadow: 1px 0px 10px #ebebeb;
+  box-shadow: 1px 0px 10px #dfdfdf;
 }
- 
 
+.content.login{
+  max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .list-table {
   width: 100%;
@@ -113,16 +120,26 @@ a{
   gap: 20px;
 }
 
+.list-table .options a {
+  display: flex;
+  align-items: center;
+}
+
 .list-table .options-title {
   max-width: 140px;
 }
 
-.left{
+.left {
   float: left;
 }
 
-.right{
+.right {
   float: right;
 }
 
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 </style>

@@ -11,9 +11,9 @@ use App\Http\Resources\News as NewsResource;
 class NewsController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::paginate(10);
+        $news = News::where('title', 'LIKE', "%{$request->search}%")->paginate(10) ;
         return NewsResource::collection($news);
     }
 
@@ -28,6 +28,7 @@ class NewsController extends Controller
         $news = new News;
         $news->title = $request->input('title');
         $news->author = $request->input('author');
+        $news->categorie_id = $request->input('categorie_id');
 
         if ($news->save()) {
             return new NewsResource($news);
@@ -39,6 +40,7 @@ class NewsController extends Controller
         $news = News::findOrFail($request->id);
         $news->title = $request->input('title');
         $news->author = $request->input('author');
+        $news->categorie_id = $request->input('categorie_id');
 
         if ($news->save()) {
             return new NewsResource($news);

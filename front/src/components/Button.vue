@@ -7,7 +7,12 @@
       width="28"
     />
     <Icon v-if="type == 'new'" icon="carbon:add-filled" width="28" />
-    {{ this.title }}
+    <Icon v-if="type == 'search'" icon="fa-solid:search" width="28" />
+
+    <Icon v-if="type == 'login'" icon="ant-design:login-outlined" width="28" />
+
+
+    <span> {{ this.title }} </span>
   </button>
 </template>
 
@@ -29,22 +34,35 @@ export default {
 <style scoped>
 button {
   height: 45px;
-  width: 120px;
+  width: fit-content;
   color: #ffffff;
   border: none;
   font-size: 18px;
   border-radius: 5px;
-  padding-right: 5px;
+  box-sizing: unset;
+  padding: 0 12px 0 8px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+}
+
+button span {
+  margin-left: 8px;
 }
 
 button.save {
   background: green;
 }
 
+button.search {
+  background: rgb(4, 74, 114);
+}
+
 button.new {
+  background: green;
+}
+
+button.login {
   background: green;
 }
 

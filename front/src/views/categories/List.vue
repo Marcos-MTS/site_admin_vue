@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-   <div class="content-header">
+    <div class="content-header">
       <h3 class="form-titulo">Lista de Categorias</h3>
       <router-link to="categories-create"
         ><Button title="Adicionar" type="new" class="right"
@@ -12,7 +12,7 @@
         <th class="left-text">Nome</th>
         <th class="right-text">Opções</th>
       </tr>
-      <tr v-for="item in formData.data" :key="item.id">
+      <tr v-for="item in listData.data" :key="item.id">
         <td class="left-text">{{ item.name }}</td>
         <td class="options">
           <router-link
@@ -30,6 +30,13 @@
         </td>
       </tr>
     </table>
+
+    <Pagination
+      @loadData="loadData"
+      :links="this.paginationData.links"
+      :total="this.paginationData.total"
+      :active="this.paginationData.active"
+    />
   </div>
 </template>
 
@@ -37,6 +44,7 @@
 import api from "../../services/api.js";
 import Message from "../../components/Message.vue";
 import Button from "../../components/Button.vue";
+import Pagination from "../../components/Pagination.vue";
 import { Icon } from "@iconify/vue";
 
 export default {
@@ -44,32 +52,40 @@ export default {
   components: {
     Icon,
     Message,
-    Button
+    Button,
+    Pagination,
   },
   data() {
     return {
-      formData: [],
+      listData: [],
+      paginationData: [],
     };
   },
   mounted() {
-    this.$refs.Message.show("Carregando...", "loading");
-    api
-      .get("/categories")
-      .then((res) => {
-        this.$refs.Message.close(false);
-        if (res.status === 200) {
-          this.formData = res.data;
-        } else {
-          console.log(res.statusText);
-          this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.loadData();
   },
-
   methods: {
+    loadData: function (page = 1) {
+      this.$refs.Message.show("Carregando...", "loading");
+      api
+        .get("/categories?page=" + page)
+        .then((res) => {
+          this.$refs.Message.close(false);
+          if (res.status === 200) {
+            this.listData = res.data;
+            this.paginationData.links = res.data.links;
+            this.paginationData.total = res.data.meta.last_page;
+            this.paginationData.active = parseInt(page);
+          } else {
+            console.log(res.statusText);
+            this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     remove: function (id) {
       this.$refs.Message.show("Aguarde", "loading");
 
@@ -77,7 +93,7 @@ export default {
         .delete("/categories/" + id)
         .then((res) => {
           if (res.status === 200) {
-            this.formData.data = this.formData.data.filter(function (event) {
+            this.listData.data = this.listData.data.filter(function (event) {
               return event.id !== id;
             });
 

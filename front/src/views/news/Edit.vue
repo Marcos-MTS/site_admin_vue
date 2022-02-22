@@ -4,24 +4,24 @@
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
-        <label for="titulo">Título</label>
-        <input
-          v-model="formData.title"
-          type="text"
-          name="titulo"
-          id="titulo"
-          required
-        />
+        <label for="categorie_id">Categoria</label>
+        <select v-model="formData.categorie_id" id="categorie_id" required>
+          <option
+            v-for="categorie in categories"
+            :key="categorie.id"
+            :value="categorie.id"
+          >
+            {{ categorie.name }}
+          </option>
+        </select>
       </div>
       <div class="input-area">
-        <label for="autor">Autor</label>
-        <input
-          v-model="formData.author"
-          type="text"
-          name="autor"
-          id="autor"
-          required
-        />
+        <label for="title">Título</label>
+        <input v-model="formData.title" type="text" id="title" required />
+      </div>
+      <div class="input-area">
+        <label for="author">Autor</label>
+        <input v-model="formData.author" type="text" id="author" required />
       </div>
       <div class="input-area">
         <Button title="Salvar" type="save" />
@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       formData: {},
+      categories: {},
     };
   },
 
@@ -55,11 +56,13 @@ export default {
   },
 
   mounted() {
+    this.$refs.Message.show("Carregando...", "loading");
     api
       .get("/news/" + this.id)
       .then((res) => {
         if (res.status === 200) {
           this.formData = res.data.data;
+          this.loadCategories();
         } else {
           console.log(res.statusText);
           this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
@@ -71,6 +74,22 @@ export default {
   },
 
   methods: {
+    loadCategories: function () {
+      api
+        .get("/categories")
+        .then((res) => {
+          this.$refs.Message.close(false);
+          if (res.status === 200) {
+            this.categories = res.data.data;
+          } else {
+            this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     submit: function () {
       this.$refs.Message.show("Aguarde", "loading");
       api

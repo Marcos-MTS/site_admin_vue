@@ -11,9 +11,13 @@ use App\Http\Resources\Categories as CategoriesResource;
 class CategoriesController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Categories::paginate(10);
+        if ($request->page) {
+            $categories = Categories::paginate(10);
+        } else {
+            $categories = Categories::get();
+        }
         return CategoriesResource::collection($categories);
     }
 

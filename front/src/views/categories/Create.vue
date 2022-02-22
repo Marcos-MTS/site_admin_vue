@@ -7,22 +7,20 @@
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
-        <label for="titulo">Nome</label>
+        <label for="name">Nome</label>
         <input
           v-model="formData.name"
           type="text"
-          name="titulo"
-          id="titulo"
+          id="name"
           required
         />
       </div>
       <div class="input-area">
-        <label for="autor">Descrição</label>
+        <label for="description">Descrição</label>
         <input
           v-model="formData.description"
           type="text"
-          name="autor"
-          id="autor"
+          id="description"
           required
         />
       </div>
