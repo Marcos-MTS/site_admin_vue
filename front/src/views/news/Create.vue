@@ -29,6 +29,18 @@
         <label for="author">Autor</label>
         <input v-model="formData.author" type="text" id="author" required />
       </div>
+
+      <div class="input-area">
+        <label for="image">Imagem</label>
+        <input
+          type="file"
+          ref="image"
+          id="image"
+          @change="handleImage"
+          required
+        />
+      </div>
+
       <div class="input-area">
         <Button title="Salvar" type="save" />
       </div>
@@ -50,6 +62,7 @@ export default {
   data() {
     return {
       formData: {},
+      image: null,
       categories: {},
     };
   },
@@ -72,14 +85,28 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.status == 401) {
+            this.$router.push({ path: "/login" });
+          } else {
+            this.$refs.Message.show("Erro na conexão!", "error");
+            console.log(error.response.data.error);
+          }
         });
     },
 
     submit: function () {
       this.$refs.Message.show("Aguarde", "loading");
+
+      let formData = new FormData();
+
+      for (let [key, val] of Object.entries(this.formData)) {
+        formData.append(key, val);
+      }
+
+      formData.append("image", this.image);
+
       api
-        .post("/news", this.formData)
+        .post("/news", formData)
         .then((res) => {
           if (res.status === 201) {
             this.formData.title = "";
@@ -91,8 +118,17 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.status == 401) {
+            this.$router.push({ path: "/login" });
+          } else {
+            this.$refs.Message.show("Erro na conexão!", "error");
+            console.log(error.response.data.error);
+          }
         });
+    },
+
+    handleImage(e) {
+      this.image = e.target.files[0];
     },
   },
 };

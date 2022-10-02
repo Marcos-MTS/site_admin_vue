@@ -64,7 +64,12 @@ export default {
         }
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response.status == 401) {
+            this.$router.push({ path: "/login" })
+          } else {
+            this.$refs.Message.show("Erro na conexão!", "error");
+            console.log(error.response.data.error);
+          }
       });
   },
 
@@ -82,7 +87,12 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.status == 401) {
+            this.$router.push({ path: "/login" })
+          } else {
+            this.$refs.Message.show("Erro na conexão!", "error");
+            console.log(error.response.data.error);
+          }
         });
     },
   },

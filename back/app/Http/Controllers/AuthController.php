@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+
+    //gera um usuario por comando cmd
+    //php artisan tinker
+    //DB::table('users')->insert(['name'=>'Marcos MTS','email'=>'marcosmatthies@gmail.com','password'=>Hash::make('123456')])
+
+
     public function login(LoginRequest $request)
     {
 
         $input = $request->validated();
- 
+
         $credentials = [
             'email' => $input['email'],
             'password' => $input['password']
@@ -30,7 +36,8 @@ class AuthController extends Controller
         return response()->json(auth()->user());
     }
 
-   
+
+
     public function logout()
     {
         auth()->logout();
@@ -38,7 +45,7 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-    
+
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());

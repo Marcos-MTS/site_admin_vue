@@ -1,7 +1,7 @@
 <template>
   <div class="content login">
     <div class="content-header">
-      <h3 class="form-titulo">Login {{ $store.state.token }}</h3>
+      <h3 class="form-titulo">Login</h3>
     </div>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
@@ -45,18 +45,18 @@ export default {
 
   methods: {
     submit: function () {
-
       this.$refs.Message.show("Aguarde", "loading");
-      api.post("/login", this.formData)
+      api
+        .post("/login", this.formData)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res.data.access_token);
-
             this.$store.dispatch("retrieveToken", {
               access_token: res.data.access_token,
             });
 
             this.$refs.Message.show("Login efetuado!", "success");
+
+            setTimeout(() => this.$router.push({ path: "/" }), 1500);
           } else {
             this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
           }

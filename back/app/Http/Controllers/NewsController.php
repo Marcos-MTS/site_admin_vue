@@ -25,7 +25,15 @@ class NewsController extends Controller
 
     public function store(Request $request)
     {
+
+        $file = $request->file('image');
+   
+        //Display File Name
+      //  echo 'File Name: '.$file->getClientOriginalName();
+       // echo '<br>';
+
         $news = new News;
+        $news->image = $file->getClientOriginalName();
         $news->title = $request->input('title');
         $news->author = $request->input('author');
         $news->categorie_id = $request->input('categorie_id');

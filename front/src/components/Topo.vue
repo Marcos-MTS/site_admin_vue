@@ -1,42 +1,37 @@
 <template>
   <div class="topo">
-    <div
-      v-on:click="abreMenu"
-      class="menu-ativador"
-      v-bind:class="{ aberto: menuAberto }"
-    >
-      <span class="linha l1"></span>
-      <span class="linha l2"></span>
-      <span class="linha l3"></span>
-    </div>
-
+ 
+    <Icon
+      :icon="!menuAberto ? 'eva:menu-fill': 'fe:close'"
+      v-on:click="toggleMenu"
+      class="menu-icon"
+      width="40"
+    />
+    
     <nav class="menu" v-bind:class="{ aberto: menuAberto }">
       <ul>
-        <li v-on:click="abreMenu">
+        <li v-on:click="toggleMenu">
           <router-link to="/">Dashboard</router-link>
         </li>
-        <li class="tem-sub-itens">
-          Notícias
-          <div v-on:click="abreMenu" class="sub-itens">
-            <router-link to="/news-list" class="sub-item">Listar</router-link>
-            <router-link to="/news-create" class="sub-item"
-              >Cadastrar</router-link
-            >
-          </div>
-        </li>
-        <li class="tem-sub-itens">
-          Categorias
-          <div v-on:click="abreMenu" class="sub-itens">
-            <router-link to="/categories-list" class="sub-item"
-              >Listar</router-link
-            >
-            <router-link to="/categories-create" class="sub-item"
-              >Cadastrar</router-link
-            >
-          </div>
-        </li>
-        <li v-on:click="abreMenu">Sobre</li>
-        <li v-on:click="abreMenu">Galeria</li>
+
+        <MenuDropdown
+          title="Notícias"
+          :items="[
+            { title: 'Cadastrar', to: '/news-list' },
+            { title: 'Listar', to: '/news-create' },
+          ]"
+        />
+
+        <MenuDropdown
+          title="Categorias"
+          :items="[
+            { title: 'Cadastrar', to: '/categories-list' },
+            { title: 'Listar', to: '/categories-create' },
+          ]"
+        />
+
+        <li v-on:click="toggleMenu">Sobre</li>
+        <li v-on:click="toggleMenu">Galeria</li>
       </ul>
     </nav>
 
@@ -48,8 +43,15 @@
 </template>
 
 <script>
+import MenuDropdown from "./MenuDropdown.vue";
+import { Icon } from "@iconify/vue";
+
 export default {
   name: "Topo",
+  components: {
+    MenuDropdown,
+    Icon,
+  },
   props: {
     title: String,
   },
@@ -57,7 +59,7 @@ export default {
     return { menuAberto: false };
   },
   methods: {
-    abreMenu() {
+    toggleMenu() {
       if (this.menuAberto) {
         this.menuAberto = false;
       } else {
@@ -70,38 +72,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.menu-ativador {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.menu-ativador .linha {
-  width: 40px;
-  height: 4px;
-  background: rgb(255, 255, 255);
-  transition: 0.5s;
-}
-
-.menu-ativador.aberto .linha.l2 {
-  display: none;
-}
-
-.menu-ativador.aberto .linha.l1 {
-  transform: rotate(320deg);
-  position: relative;
-  top: 6px;
-}
-.menu-ativador.aberto .linha.l3 {
-  transform: rotate(45deg);
-  top: -6px;
-  position: relative;
+.menu-icon {
+  color: #ffffff;
 }
 
 .topo {
   height: 60px;
   width: 100%;
-  background: #6075c3;
+  background: #004791;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -133,14 +111,14 @@ export default {
 
 .menu {
   position: absolute;
-  background: #7b92e9;
+  background: #0051a5;
   left: -100%;
   top: 60px;
   height: calc(100vh - 60px);
   width: 300px;
   padding: 10px 20px;
   box-sizing: border-box;
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
 .menu.aberto {
@@ -152,17 +130,18 @@ export default {
   color: #ffffff;
   padding: 5px 5px;
   list-style: none;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 300;
 }
 
 .menu ul li:hover {
-  background: #8ca1f0;
+  background: #004791;
   cursor: pointer;
 }
 .tem-sub-itens .sub-itens {
   margin-left: 15px;
   padding: 5px 0;
-  display: flex;
   flex-direction: column;
+  display: none;
 }
 </style>

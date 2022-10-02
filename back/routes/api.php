@@ -22,38 +22,40 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+}); */
+
+
+Route::group(['middleware' => ['jwtAuth']], function () {
+
+    // Lista as notícia
+    Route::get('/news', [NewsController::class, 'index']);
+
+    // Retorna uma unica notícia
+    Route::get('/news/{id}', [NewsController::class, 'show']);
+
+    // Cria uma nova notícia
+    Route::post('/news', [NewsController::class, 'store']);
+
+    // Atualiza a notícia
+    Route::put('/news/{id}', [NewsController::class, 'update']);
+
+    // Exclui a notícia
+    Route::delete('/news/{id}', [NewsController::class, 'destroy']);
+
+    // Lista as categorias
+    Route::get('/categories', [CategoriesController::class, 'index']);
+
+    // Retorna uma unica categoria
+    Route::get('/categories/{id}', [CategoriesController::class, 'show']);
+
+    // Cria uma nova categoria
+    Route::post('/categories', [CategoriesController::class, 'store']);
+
+    // Atualiza a categoria
+    Route::put('/categories/{id}', [CategoriesController::class, 'update']);
+
+    // Exclui a categoria
+    Route::delete('/categories/{id}', [CategoriesController::class, 'destroy']);
 });
-
-
-// Lista as notícia
-Route::get('/news', [NewsController::class, 'index']);
-
-// Retorna uma unica notícia
-Route::get('/news/{id}', [NewsController::class, 'show']);
-
-// Cria uma nova notícia
-Route::post('/news', [NewsController::class, 'store']);
-
-// Atualiza a notícia
-Route::put('/news/{id}', [NewsController::class, 'update']);
-
-// Exclui a notícia
-Route::delete('/news/{id}', [NewsController::class,'destroy']);
-
-
-// Lista as categorias
-Route::get('/categories', [CategoriesController::class, 'index']);
-
-// Retorna uma unica categoria
-Route::get('/categories/{id}', [CategoriesController::class, 'show']);
-
-// Cria uma nova categoria
-Route::post('/categories', [CategoriesController::class, 'store']);
-
-// Atualiza a categoria
-Route::put('/categories/{id}', [CategoriesController::class, 'update']);
-
-// Exclui a categoria
-Route::delete('/categories/{id}', [CategoriesController::class,'destroy']);

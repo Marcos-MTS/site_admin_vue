@@ -8,9 +8,7 @@
     />
     <Icon v-if="type == 'new'" icon="carbon:add-filled" width="28" />
     <Icon v-if="type == 'search'" icon="fa-solid:search" width="28" />
-
     <Icon v-if="type == 'login'" icon="ant-design:login-outlined" width="28" />
-
 
     <span> {{ this.title }} </span>
   </button>
