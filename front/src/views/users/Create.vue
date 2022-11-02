@@ -1,35 +1,59 @@
 <template>
   <div class="content">
-    <h3 class="form-titulo">Edição de notícias</h3>
+    <div class="content-header">
+      <h3 class="form-titulo">Cadastro de Usuários</h3>
+      <router-link to="users-list"
+        ><Button title="Voltar" type="go-back" class="right"
+      /></router-link>
+    </div>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
-        <label for="categorie_id">Categoria</label>
-        <select v-model="formData.categorie_id" id="categorie_id" required>
+        <label for="users_levels_id">Perfil</label>
+        <select
+          v-model="formData.users_levels_id"
+          id="users_levels_id"
+          required
+        >
           <option
-            v-for="categorie in categories"
-            :key="categorie.id"
-            :value="categorie.id"
+            v-for="users_level in users_levels"
+            :key="users_level.id"
+            :value="users_level.id"
           >
-            {{ categorie.name }}
+            {{ users_level.name }}
           </option>
         </select>
       </div>
+
       <div class="input-area">
-        <label for="title">Título</label>
-        <input v-model="formData.title" type="text" id="title" required />
+        <label for="name">Nome</label>
+        <input v-model="formData.name" type="text" id="name" required />
       </div>
+
       <div class="input-area">
-        <label for="author">Autor</label>
-        <input v-model="formData.author" type="text" id="author" required />
+        <label for="email">Email</label>
+        <input v-model="formData.email" type="email" id="email" required />
+      </div>
+
+      <div class="input-area">
+        <label for="password">Senha</label>
+        <input
+          v-model="formData.password"
+          type="password"
+          id="password"
+          required
+        />
       </div>
 
       <div class="input-area">
         <label for="image">Imagem</label>
-        <div class="image-input-edit">
-          <input type="file" ref="image" id="image" @change="handleImage" />
-          <ImageViewer :url="'uploads/news/' + formData.image" />
-        </div>
+        <input
+          type="file"
+          ref="image"
+          id="image"
+          @change="handleImage"
+          required
+        />
       </div>
 
       <div class="input-area">
@@ -42,62 +66,35 @@
 <script>
 import Button from "../../components/Button.vue";
 import Message from "../../components/Message.vue";
-import ImageViewer from "../../components/ImageViewer.vue";
 import api from "../../services/api.js";
 
 export default {
-  name: "Edit",
+  name: "Create",
   components: {
     Button,
     Message,
-    ImageViewer,
   },
   data() {
     return {
       formData: {},
       image: null,
-      categories: {},
+      users_levels: {},
     };
   },
 
-  props: {
-    id: {
-      required: true,
-      type: String,
-    },
-  },
-
   mounted() {
-    this.$refs.Message.show("Carregando...", "loading");
-    api
-      .get("/news/" + this.id)
-      .then((res) => {
-        if (res.status === 200) {
-          this.formData = res.data.data;
-          this.loadCategories();
-        } else {
-          console.log(res.statusText);
-          this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
-        }
-      })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          this.$router.push({ path: "/login" });
-        } else {
-          this.$refs.Message.show("Erro na conexão!", "error");
-          console.log(error.response.data.error);
-        }
-      });
+    this.loadUsersLevels();
   },
 
   methods: {
-    loadCategories: function () {
+    loadUsersLevels: function () {
+      this.$refs.Message.show("Carregando...", "loading");
       api
-        .get("/categories")
+        .get("/users_level")
         .then((res) => {
           this.$refs.Message.close(false);
           if (res.status === 200) {
-            this.categories = res.data.data;
+            this.users_levels = res.data.data;
           } else {
             this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
           }
@@ -123,20 +120,15 @@ export default {
       }
 
       //adicionamos a imagem
-      if (this.image) {
-        formData.append("new_image", this.image);
-      }
-
-      //fingimos o metodo PUT pois o laravel tem problemas em receber dados multipart-form via PUT e devido a isso usamos metodo POST
-      formData.append("_method", "put");
+      formData.append("image", this.image);
 
       api
-        .post("/news/" + this.id, formData)
+        .post("/users", formData)
         .then((res) => {
-          if (res.status === 200) {
-            this.$refs.Message.show("Editado com sucesso!", "success");
-            this.$refs.image.value = null;
-            this.formData.image = res.data.data.image;
+          if (res.status === 201) {
+            this.formData.title = "";
+            this.formData.author = "";
+            this.$refs.Message.show("Cadastrado com sucesso!", "success");
           } else {
             console.log(res.statusText);
             this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");

@@ -5,12 +5,7 @@
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
         <label for="name">Nome</label>
-        <input
-          v-model="formData.name"
-          type="text"
-          id="name"
-          required
-        />
+        <input v-model="formData.name" type="text" id="name" required />
       </div>
       <div class="input-area">
         <label for="description">Descrição</label>
@@ -53,11 +48,13 @@ export default {
   },
 
   mounted() {
+    this.$refs.Message.show("Carregando...", "loading");
     api
       .get("/categories/" + this.id)
       .then((res) => {
         if (res.status === 200) {
           this.formData = res.data.data;
+          this.$refs.Message.close(false);
         } else {
           console.log(res.statusText);
           this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
@@ -65,11 +62,11 @@ export default {
       })
       .catch((error) => {
         if (error.response.status == 401) {
-            this.$router.push({ path: "/login" })
-          } else {
-            this.$refs.Message.show("Erro na conexão!", "error");
-            console.log(error.response.data.error);
-          }
+          this.$router.push({ path: "/login" });
+        } else {
+          this.$refs.Message.show("Erro na conexão!", "error");
+          console.log(error.response.data.error);
+        }
       });
   },
 
@@ -88,7 +85,9 @@ export default {
         })
         .catch((error) => {
           if (error.response.status == 401) {
-            this.$router.push({ path: "/login" })
+            this.$router.push({ path: "/login" });
+          } else if (error.response.status == 422) {
+            this.$refs.Message.handleErrors(error.response.data.errors);
           } else {
             this.$refs.Message.show("Erro na conexão!", "error");
             console.log(error.response.data.error);

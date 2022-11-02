@@ -5,7 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoriesController;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersLevelController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,6 +29,36 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 
 Route::group(['middleware' => ['jwtAuth']], function () {
+
+    // Lista os perfis de usuários
+    Route::get('/users_level', [UsersLevelController::class, 'index']);
+
+    // Retorna um unico perfil de usuário
+    Route::get('/users_level/{id}', [UsersLevelController::class, 'show']);
+
+    // Cria um novo perfil de usuário
+    Route::post('/users_level', [UsersLevelController::class, 'store']);
+
+    // Atualiza o perfil de usuário
+    Route::put('/users_level/{id}', [UsersLevelController::class, 'update']);
+
+    // Exclui o perfil de usuário
+    Route::delete('/users_level/{id}', [UsersLevelController::class, 'destroy']);
+
+    // Lista os usuários
+    Route::get('/users', [UserController::class, 'index']);
+
+    // Retorna um unico usuário
+    Route::get('/users/{id}', [UserController::class, 'show']);
+
+    // Cria um novo usuário
+    Route::post('/users', [UserController::class, 'store']);
+
+    // Atualiza o usuário
+    Route::put('/users/{id}', [UserController::class, 'update']);
+
+    // Exclui o usuário
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
     // Lista as notícia
     Route::get('/news', [NewsController::class, 'index']);

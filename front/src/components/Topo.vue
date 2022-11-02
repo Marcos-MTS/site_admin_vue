@@ -17,16 +17,32 @@
         <MenuDropdown
           title="Notícias"
           :items="[
-            { title: 'Cadastrar', to: '/news-list' },
-            { title: 'Listar', to: '/news-create' },
+            { title: 'Cadastrar', to: '/news-create' },
+            { title: 'Listar', to: '/news-list' },
           ]"
         />
 
         <MenuDropdown
           title="Categorias"
           :items="[
-            { title: 'Cadastrar', to: '/categories-list' },
-            { title: 'Listar', to: '/categories-create' },
+            { title: 'Cadastrar', to: '/categories-create' },
+            { title: 'Listar', to: '/categories-list' },
+          ]"
+        />
+
+         <MenuDropdown
+          title="Usuários"
+          :items="[
+            { title: 'Cadastrar', to: '/users-create' },
+            { title: 'Listar', to: '/users-list' },
+          ]"
+        />
+
+         <MenuDropdown
+          title="Perfis de Usuários"
+          :items="[
+            { title: 'Cadastrar', to: '/users-level-create' },
+            { title: 'Listar', to: '/users-level-list' },
           ]"
         />
 

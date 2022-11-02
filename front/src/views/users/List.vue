@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <div class="content-header">
-      <h3 class="form-titulo">Lista de Notícias</h3>
-      <router-link to="news-create"
+      <h3 class="form-titulo">Lista de Usuários</h3>
+      <router-link to="users-create"
         ><Button title="Adicionar" type="new" class="right"
       /></router-link>
     </div>
@@ -23,24 +23,24 @@
     <Message ref="Message" />
     <table class="list-table">
       <tr>
-        <th class="left-text">Título</th>
-        <th class="left-text">Autor</th>
-        <th class="left-text">Categoria</th>
+        <th class="left-text">Nome</th>
+        <th class="left-text">Email</th>
+       <th class="left-text">Perfil</th> 
         <th class="center-text">Imagem</th>
         <th class="right-text">Opções</th>
       </tr>
       <tr v-for="item in listData.data" :key="item.id">
-        <td class="left-text">{{ item.title }}</td>
-        <td class="left-text">{{ item.author }}</td>
-        <td class="left-text">
-          {{ item.categorie != null ? item.categorie.name : "" }}
+        <td class="left-text">{{ item.name }}</td>
+        <td class="left-text">{{ item.email }}</td>
+     <td class="left-text">
+          {{ item.users_level != null ? item.users_level.name : "" }}
         </td>
         <td class="left-text">
-          <ImageViewer :url="'uploads/news/' + item.image" />
+          <ImageViewer :url="'uploads/users/' + item.image" />
         </td>
         <td class="options">
           <router-link
-            v-bind:to="{ name: 'NewsEdit', params: { id: item.id } }"
+            v-bind:to="{ name: 'UsersEdit', params: { id: item.id } }"
             title="Editar"
             ><Icon icon="clarity:edit-solid" color="#6075c3" width="25"
           /></router-link>
@@ -95,7 +95,7 @@ export default {
     loadData: function (page = 1) {
       this.$refs.Message.show("Carregando...", "loading");
       api
-        .get("/news?page=" + page + "&search=" + this.search)
+        .get("/users?page=" + page + "&search=" + this.search)
         .then((res) => {
           this.$refs.Message.close(false);
           if (res.status === 200) {
@@ -122,7 +122,7 @@ export default {
       this.$refs.Message.show("Aguarde", "loading");
 
       api
-        .delete("/news/" + id)
+        .delete("/users/" + id)
         .then((res) => {
           if (res.status === 200) {
             this.listData.data = this.listData.data.filter(function (event) {

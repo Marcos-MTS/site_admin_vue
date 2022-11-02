@@ -7,7 +7,9 @@ const api = axios.create({
         'Accept' : 'application/json',
         Authorization: 'Bearer ' + store.state.token 
       },
-    baseURL: "http://127.0.0.1:8000/api"
+    baseURL: process.env.VUE_APP_API_URL +"/api"
 });
+
+console.log(store.state.token)
 
 export default api;

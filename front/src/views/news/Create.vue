@@ -99,10 +99,12 @@ export default {
 
       let formData = new FormData();
 
+      //adicionamos os dados do formulario
       for (let [key, val] of Object.entries(this.formData)) {
         formData.append(key, val);
       }
 
+      //adicionamos a imagem
       formData.append("image", this.image);
 
       api
@@ -120,6 +122,8 @@ export default {
         .catch((error) => {
           if (error.response.status == 401) {
             this.$router.push({ path: "/login" });
+          } else if (error.response.status == 422) {
+            this.$refs.Message.handleErrors(error.response.data.errors);
           } else {
             this.$refs.Message.show("Erro na conexão!", "error");
             console.log(error.response.data.error);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Http\Resources\Categories as CategoriesResource;
+use App\Http\Requests\CategoriesRequest;
 
 
 class CategoriesController extends Controller
@@ -27,7 +28,7 @@ class CategoriesController extends Controller
         return new CategoriesResource($categories);
     }
 
-    public function store(Request $request)
+    public function store(CategoriesRequest $request)
     {
         $categories = new Categories;
         $categories->name = $request->input('name');
@@ -38,7 +39,7 @@ class CategoriesController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(CategoriesRequest $request)
     {
         $categories = Categories::findOrFail($request->id);
         $categories->name = $request->input('name');

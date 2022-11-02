@@ -1,25 +1,22 @@
 <template>
-  <div class="content login">
+  <div class="content">
     <div class="content-header">
-      <h3 class="form-titulo">Login</h3>
+      <h3 class="form-titulo">Cadastro de perfis de usuário</h3>
+      <router-link to="users-level-list"><Button title="Voltar" type="go-back" class="right"/></router-link>
     </div>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
-        <label for="email">Email</label>
-        <input v-model="formData.email" type="email" id="email" required />
-      </div>
-      <div class="input-area">
-        <label for="password">Senha</label>
+        <label for="name">Nome</label>
         <input
-          v-model="formData.password"
-          type="password"
-          id="password"
+          v-model="formData.name"
+          type="text"
+          id="name"
           required
         />
       </div>
       <div class="input-area">
-        <Button title="Login" type="login" />
+        <Button title="Salvar" type="save" />
       </div>
     </form>
   </div>
@@ -29,10 +26,9 @@
 import Button from "../../components/Button.vue";
 import Message from "../../components/Message.vue";
 import api from "../../services/api.js";
-//import store from "../../store/store.js";
 
 export default {
-  name: "Login",
+  name: "Create",
   components: {
     Button,
     Message,
@@ -47,24 +43,20 @@ export default {
     submit: function () {
       this.$refs.Message.show("Aguarde", "loading");
       api
-        .post("/login", this.formData)
+        .post("/users_level", this.formData)
         .then((res) => {
-          if (res.status == 200) {
-            this.$store.dispatch("retrieveToken", {
-              access_token: res.data.access_token,
-            });
-
-            this.$refs.Message.show("Login efetuado!", "success");
-
-            setTimeout(() => this.$router.push({ path: "/" }), 1500);
+          if (res.status === 201) {
+            this.formData.name = "";
+            this.formData.description = "";
+            this.$refs.Message.show("Cadastrado com sucesso!", "success");
           } else {
+            console.log(res.statusText);
             this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
           }
         })
         .catch((error) => {
           if (error.response.status == 401) {
-            this.formData.password = "";
-            this.$refs.Message.show("Dados inválidos!", "error");
+            this.$router.push({ path: "/login" })
            } else if (error.response.status == 422) {
             this.$refs.Message.handleErrors(error.response.data.errors);
           } else {

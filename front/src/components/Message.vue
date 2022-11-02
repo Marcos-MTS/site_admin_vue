@@ -24,6 +24,7 @@ export default {
     return {
       msg: "",
       type: "",
+      errors: null,
     };
   },
   components: {
@@ -39,16 +40,30 @@ export default {
       }
     },
 
-    close: function (timer = true) {
+    close: function (timer = true, time = 2000) {
       if (timer) {
         setTimeout(() => {
           this.msg = "";
           this.type = "";
-        }, 2000);
+        }, time);
       } else {
         this.msg = "";
         this.type = "";
       }
+    },
+
+    handleErrors: function (errors) {
+      let errorFinalMessage = "";
+
+      Object.keys(errors).forEach(function (key) {
+        errors[key].forEach(function (message) {
+          errorFinalMessage += message + " ";
+        });
+      });
+
+      this.msg = errorFinalMessage;
+      this.type = "error";
+      this.close(true, 5000);
     },
   },
 };

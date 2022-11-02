@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class UsersLevelRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,17 +14,14 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'email|required',
-            'password' => 'required'
+            'name' => 'required',
         ];
     }
 
     public function messages()
     {
         return [            
-            'email.required' => 'Informe o email!',
-            'email.email' => 'Informe um email válido!',
-            'password.required' => 'Informe a senha!',
+            'name.required' => 'Informe o nome!',
         ];
     }
 }

@@ -55,4 +55,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function users_level()
+    {
+        return $this->belongsTo(UsersLevel::class, foreignKey:'users_levels_id');
+    }
 }

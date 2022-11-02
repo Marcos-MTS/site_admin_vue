@@ -71,6 +71,16 @@ a {
   color: #6a6a6a;
 }
 
+.input-area input[type="file"] {
+  max-width: 340px;
+}
+
+.input-area .image-input-edit {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
 .input-area select option {
   padding: 5px;
 }
@@ -91,10 +101,14 @@ a {
   box-shadow: 1px 0px 10px #dfdfdf;
 }
 
-.content.login{
+.content.login {
   max-width: 350px;
-    margin-left: auto;
-    margin-right: auto;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f7f7f7;
 }
 
 .list-table {
