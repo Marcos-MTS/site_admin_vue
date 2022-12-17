@@ -7,36 +7,58 @@
       <Icon icon="clarity:success-standard-solid" width="28" />
     </div>
     <div v-if="this.type == 'error'" class="icone-area">
-      <Icon icon="bx:bx-error" width="28" />
+      <Icon icon="bx:bx-error" />
+    </div>
+    <div v-if="this.type == 'dialog'" class="icone-area">
+      <Icon icon="mdi:question-mark-circle-outline" width="40" />
     </div>
     <div class="message-area">
       {{ msg }}
+    </div>
+    <div class="btns-area" v-if="this.type == 'dialog'">
+      <Button @click="confirm" :title="confirmButtonText" type="delete" class="right" />
+      <Button @click="cancel" :title="cancelButtonText" type="cancel" class="right" />
     </div>
   </div>
 </template>
 
 <script>
 import { Icon } from "@iconify/vue";
+import Button from "./Button.vue";
 
 export default {
   name: "Message",
   data() {
     return {
       msg: "",
+      confirmButtonText: "",
+      cancelButtonText: "",
       type: "",
       errors: null,
+      resolvePromise: undefined,
+      rejectPromise: undefined,
     };
   },
   components: {
     Icon,
+    Button,
   },
   methods: {
-    show: function (msg, type) {
+    show: function (msg, type, confirmButtonText = "Excluir", cancelButtonText = "Cancelar") {
       this.msg = msg;
       this.type = type;
+      this.confirmButtonText = confirmButtonText;
+      this.cancelButtonText = cancelButtonText;
 
-      if (type != "loading") {
+      if (type != "loading" && type != "dialog") {
         this.close();
+      }
+
+      if (type == "dialog") {
+        return new Promise((resolve, reject) => {
+          this.resolvePromise = resolve;
+          this.rejectPromise = reject;
+        });
       }
     },
 
@@ -65,6 +87,16 @@ export default {
       this.type = "error";
       this.close(true, 5000);
     },
+
+    confirm() {
+      this.close(false);
+      this.resolvePromise();
+    },
+
+    cancel() {
+      this.close(false);
+      this.rejectPromise("Evento cancelado!");
+    },
   },
 };
 </script>
@@ -85,6 +117,11 @@ export default {
   transition: 0.4s;
   display: flex;
   align-items: center;
+}
+
+.btns-area {
+  display: flex;
+  gap: 20px;
 }
 
 .message-area {
@@ -116,6 +153,18 @@ export default {
 .message.loading {
   background: #e0bf04;
   top: 50px;
+}
+
+.message.dialog {
+  background: #004791;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  gap: 25px;
+  width: fit-content;
+  padding: 30px 50px;
+  transition: none;
 }
 
 .loader {

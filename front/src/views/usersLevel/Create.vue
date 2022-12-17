@@ -2,7 +2,7 @@
   <div class="content">
     <div class="content-header">
       <h3 class="form-titulo">Cadastro de perfis de usuário</h3>
-      <router-link to="users-level-list"><Button title="Voltar" type="go-back" class="right"/></router-link>
+      <router-link to="/users-level-list"><Button title="Voltar" type="go-back" class="right"/></router-link>
     </div>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">

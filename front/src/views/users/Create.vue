@@ -2,7 +2,7 @@
   <div class="content">
     <div class="content-header">
       <h3 class="form-titulo">Cadastro de Usuários</h3>
-      <router-link to="users-list"
+      <router-link to="/users-list"
         ><Button title="Voltar" type="go-back" class="right"
       /></router-link>
     </div>

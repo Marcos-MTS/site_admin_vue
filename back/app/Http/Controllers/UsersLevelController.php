@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\UsersLevel;
 use Illuminate\Http\Request;
 use App\Http\Resources\UsersLevel as UsersLevelResource;
-use App\Http\Requests\UsersLevelRequest;
+use App\Http\Requests\UsersLevelsRequest;
 
 
 class UsersLevelController extends Controller
@@ -28,7 +28,7 @@ class UsersLevelController extends Controller
         return new UsersLevelResource($usersLevel);
     }
 
-    public function store(UsersLevelRequest $request)
+    public function store(UsersLevelsRequest $request)
     {
         $usersLevel = new UsersLevel;
         $usersLevel->name = $request->input('name');
@@ -38,7 +38,7 @@ class UsersLevelController extends Controller
         }
     }
 
-    public function update(UsersLevelRequest $request)
+    public function update(UsersLevelsRequest $request)
     {
         $usersLevel = UsersLevel::findOrFail($request->id);
         $usersLevel->name = $request->input('name');

@@ -2,7 +2,7 @@
   <div class="content">
     <div class="content-header">
       <h3 class="form-titulo">Cadastro de Categorias</h3>
-      <router-link to="categories-list"><Button title="Voltar" type="go-back" class="right"/></router-link>
+      <router-link to="/categories-list"><Button title="Voltar" type="go-back" class="right"/></router-link>
     </div>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
@@ -50,6 +50,7 @@ export default {
 
   methods: {
     submit: function () {
+
       this.$refs.Message.show("Aguarde", "loading");
       api
         .post("/categories", this.formData)

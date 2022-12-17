@@ -137,6 +137,11 @@ a {
 .list-table .options a {
   display: flex;
   align-items: center;
+  cursor: pointer;
+}
+
+.list-table .options div{
+  cursor: pointer;
 }
 
 .list-table .options-title {

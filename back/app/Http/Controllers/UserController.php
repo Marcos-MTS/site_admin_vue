@@ -26,6 +26,12 @@ class UserController extends Controller
         return new UserResource($User);
     }
 
+    public function my_user()
+    {
+        $user = auth()->user();
+        return new UserResource($user);
+    }
+
     public function store(UserStoreRequest $request)
     {
         if ($request->file()) {
@@ -52,10 +58,25 @@ class UserController extends Controller
         }
     }
 
-
     public function update(UserUpdateRequest $request)
     {
-        $user = User::findOrFail($request->id);
+        return $this->update_user($request);
+    }
+
+    public function update_my_user(UserUpdateRequest $request)
+    {
+        return $this->update_user($request, true);
+    }
+
+    function update_user($request, $my_user = false)
+    {
+        if ($my_user) {
+            $user_id = auth()->user()->id;
+        } else {
+            $user_id = $request->id;
+        }
+
+        $user = User::findOrFail($user_id);
 
         $oldImage = $user->image;
 
@@ -66,8 +87,6 @@ class UserController extends Controller
         if ($request->input('password')) {
             $user->password = Hash::make($request->input('password'));
         }
-        //   $user->author = $request->input('author');
-        //  $user->categorie_id = $request->input('categorie_id');
 
         if ($request->file()) {
 

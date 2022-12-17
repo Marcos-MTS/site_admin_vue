@@ -9,6 +9,8 @@
     <Icon v-if="type == 'new'" icon="carbon:add-filled" width="28" />
     <Icon v-if="type == 'search'" icon="fa-solid:search" width="28" />
     <Icon v-if="type == 'login'" icon="ant-design:login-outlined" width="28" />
+    <Icon v-if="type == 'cancel'" icon="material-symbols:cancel" width="28" />
+    <Icon v-if="type == 'delete'" icon="fluent:delete-dismiss-24-filled" width="28" />
 
     <span> {{ this.title }} </span>
   </button>
@@ -42,6 +44,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  cursor: pointer;
+}
+
+button:hover {
+filter: brightness(0.9);
 }
 
 button span {
@@ -50,6 +57,14 @@ button span {
 
 button.save {
   background: green;
+}
+
+button.delete {
+  background: #e50202;
+}
+
+button.cancel {
+  background: gray;
 }
 
 button.search {

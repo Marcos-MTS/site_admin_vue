@@ -15,7 +15,6 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-
         $input = $request->validated();
 
         $credentials = [
@@ -27,7 +26,6 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-
         return $this->respondWithToken($token);
     }
 
@@ -36,15 +34,12 @@ class AuthController extends Controller
         return response()->json(auth()->user());
     }
 
-
-
     public function logout()
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Logout efetuado!']);
     }
-
 
     public function refresh()
     {
@@ -53,9 +48,14 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'user_id' => auth()->user()->id,
+            'user_name' => auth()->user()->name,
+            'user_level' => auth()->user()->users_levels_id,
+            'user_image' => auth()->user()->image,
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }

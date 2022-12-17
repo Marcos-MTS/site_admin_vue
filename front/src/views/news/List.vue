@@ -42,13 +42,13 @@
           <router-link
             v-bind:to="{ name: 'NewsEdit', params: { id: item.id } }"
             title="Editar"
-            ><Icon icon="clarity:edit-solid" color="#6075c3" width="25"
+            ><Icon icon="clarity:edit-solid" color="#6075c3" width="20"
           /></router-link>
-          <div @click="remove(item.id)" title="Excluir">
+        <div @click="remove(item.id, item.title)" title="Excluir">
             <Icon
               icon="fluent:delete-dismiss-24-filled"
               color="#e50202"
-              width="25"
+              width="20"
             />
           </div>
         </td>
@@ -118,27 +118,42 @@ export default {
         });
     },
 
-    remove: function (id) {
-      this.$refs.Message.show("Aguarde", "loading");
+    remove: function (id, name) {
+      this.$refs.Message.show(
+        "Deseja excluir o item '" + name + "'?",
+        "dialog"
+      ).then(() => {
+        this.$refs.Message.show("Excluindo...", "loading");
+        api
+          .delete("/news/" + id)
+          .then((res) => {
+            if (res.status === 200) {
+              this.listData.data = this.listData.data.filter(function (event) {
+                return event.id !== id;
+              });
 
-      api
-        .delete("/news/" + id)
-        .then((res) => {
-          if (res.status === 200) {
-            this.listData.data = this.listData.data.filter(function (event) {
-              return event.id !== id;
-            });
+              this.$refs.Message.show("Removido com sucesso!", "success");
+            } else {
+              console.log(res.statusText);
+              this.$refs.Message.show(
+                "Ocorreu algum erro no servidor!",
+                "error"
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
 
-            this.$refs.Message.show("Removido com sucesso!", "success");
-          } else {
-            console.log(res.statusText);
-            this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+            if (error.response.status == 401) {
+              this.$router.push({ path: "/login" });
+            } else {
+              this.$refs.Message.show("Erro na conexão!", "error");
+              console.log(error.response.data.error);
+            }
+          });
+      });
     },
+ 
   },
 };
 </script>

@@ -17,10 +17,13 @@ import Login from '../views/login/login'
 import UsersCreate from '../views/users/Create'
 import UsersList from '../views/users/List'
 import UsersEdit from '../views/users/Edit'
+import MyUser from '../views/users/MyUser'
 //Perfis de Usuários
 import UsersLevelCreate from '../views/usersLevel/Create'
 import UsersLevelList from '../views/usersLevel/List'
 import UsersLevelEdit from '../views/usersLevel/Edit'
+//Galeria de fotos
+import Gallery from '../views/gallery/Edit'
 
 const routes = [
   {
@@ -95,6 +98,13 @@ const routes = [
     props: true,
     beforeEnter: isAuth,
   },
+  {
+    path: '/my-user/',
+    name: 'MyUser',
+    component: MyUser,
+    props: true,
+    beforeEnter: isAuth,
+  },
   //perfis de usuários
   {
     path: '/users-level-create',
@@ -113,6 +123,12 @@ const routes = [
     name: 'UsersLevelEdit',
     component: UsersLevelEdit,
     props: true,
+    beforeEnter: isAuth,
+  },
+  {
+    path: '/gallery/',
+    name: 'Gallery',
+    component: Gallery,
     beforeEnter: isAuth,
   },
 

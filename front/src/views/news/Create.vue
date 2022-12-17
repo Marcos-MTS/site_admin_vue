@@ -2,7 +2,7 @@
   <div class="content">
     <div class="content-header">
       <h3 class="form-titulo">Cadastro de Notícias</h3>
-      <router-link to="news-list"
+      <router-link to="/news-list"
         ><Button title="Voltar" type="go-back" class="right"
       /></router-link>
     </div>

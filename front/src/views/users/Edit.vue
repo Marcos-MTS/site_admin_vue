@@ -1,6 +1,11 @@
 <template>
   <div class="content">
-    <h3 class="form-titulo">Edição de Usuários</h3>
+    <div class="content-header">
+      <h3 class="form-titulo">Edição de Usuários</h3>
+      <router-link to="/users-list"
+        ><Button title="Voltar" type="go-back" class="right"
+      /></router-link>
+    </div>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">

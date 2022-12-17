@@ -50,9 +50,8 @@ export default {
         .post("/login", this.formData)
         .then((res) => {
           if (res.status == 200) {
-            this.$store.dispatch("retrieveToken", {
-              access_token: res.data.access_token,
-            });
+         
+            this.$store.dispatch("retrieveUser", res.data);
 
             this.$refs.Message.show("Login efetuado!", "success");
 
@@ -65,7 +64,7 @@ export default {
           if (error.response.status == 401) {
             this.formData.password = "";
             this.$refs.Message.show("Dados inválidos!", "error");
-           } else if (error.response.status == 422) {
+          } else if (error.response.status == 422) {
             this.$refs.Message.handleErrors(error.response.data.errors);
           } else {
             this.$refs.Message.show("Erro na conexão!", "error");

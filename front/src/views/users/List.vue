@@ -25,14 +25,14 @@
       <tr>
         <th class="left-text">Nome</th>
         <th class="left-text">Email</th>
-       <th class="left-text">Perfil</th> 
+        <th class="left-text">Perfil</th>
         <th class="center-text">Imagem</th>
         <th class="right-text">Opções</th>
       </tr>
       <tr v-for="item in listData.data" :key="item.id">
         <td class="left-text">{{ item.name }}</td>
         <td class="left-text">{{ item.email }}</td>
-     <td class="left-text">
+        <td class="left-text">
           {{ item.users_level != null ? item.users_level.name : "" }}
         </td>
         <td class="left-text">
@@ -40,15 +40,15 @@
         </td>
         <td class="options">
           <router-link
-            v-bind:to="{ name: 'UsersEdit', params: { id: item.id } }"
+            v-bind:to="$store.state.user.id == item.id ? {name: 'MyUser'} : { name: 'UsersEdit', params: { id: item.id } } "
             title="Editar"
-            ><Icon icon="clarity:edit-solid" color="#6075c3" width="25"
+            ><Icon icon="clarity:edit-solid" color="#6075c3" width="20"
           /></router-link>
-          <div @click="remove(item.id)" title="Excluir">
+          <div v-if="$store.state.user.id != item.id" @click="remove(item.id, item.name)" title="Excluir">
             <Icon
               icon="fluent:delete-dismiss-24-filled"
               color="#e50202"
-              width="25"
+              width="20"
             />
           </div>
         </td>
@@ -117,27 +117,40 @@ export default {
           }
         });
     },
+     remove: function (id, name) {
+      this.$refs.Message.show(
+        "Deseja excluir o item '" + name + "'?",
+        "dialog"
+      ).then(() => {
+        this.$refs.Message.show("Excluindo...", "loading");
+        api
+          .delete("/users/" + id)
+          .then((res) => {
+            if (res.status === 200) {
+              this.listData.data = this.listData.data.filter(function (event) {
+                return event.id !== id;
+              });
 
-    remove: function (id) {
-      this.$refs.Message.show("Aguarde", "loading");
+              this.$refs.Message.show("Removido com sucesso!", "success");
+            } else {
+              console.log(res.statusText);
+              this.$refs.Message.show(
+                "Ocorreu algum erro no servidor!",
+                "error"
+              );
+            }
+          })
+          .catch((error) => {
+            console.log(error);
 
-      api
-        .delete("/users/" + id)
-        .then((res) => {
-          if (res.status === 200) {
-            this.listData.data = this.listData.data.filter(function (event) {
-              return event.id !== id;
-            });
-
-            this.$refs.Message.show("Removido com sucesso!", "success");
-          } else {
-            console.log(res.statusText);
-            this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+            if (error.response.status == 401) {
+              this.$router.push({ path: "/login" });
+            } else {
+              this.$refs.Message.show("Erro na conexão!", "error");
+              console.log(error.response.data.error);
+            }
+          });
+      });
     },
   },
 };

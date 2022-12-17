@@ -1,39 +1,45 @@
 <template>
   <div class="content">
-   <div class="content-header">
-      <h3 class="form-titulo">Edição de notícias</h3>
-      <router-link to="/news-list"
-        ><Button title="Voltar" type="go-back" class="right"
-      /></router-link>
-    </div>
+    <h3 class="form-titulo">Meus dados de usuário</h3>
     <Message ref="Message" />
     <form ref="form" @submit.prevent="submit" id="form-area">
       <div class="input-area">
-        <label for="categorie_id">Categoria</label>
-        <select v-model="formData.categorie_id" id="categorie_id" required>
+        <label for="users_levels_id">Perfil</label>
+        <select
+          v-model="formData.users_levels_id"
+          id="users_levels_id"
+          required
+        >
           <option
-            v-for="categorie in categories"
-            :key="categorie.id"
-            :value="categorie.id"
+            v-for="users_level in users_levels"
+            :key="users_level.id"
+            :value="users_level.id"
           >
-            {{ categorie.name }}
+            {{ users_level.name }}
           </option>
         </select>
       </div>
+
       <div class="input-area">
-        <label for="title">Título</label>
-        <input v-model="formData.title" type="text" id="title" required />
+        <label for="name">Nome</label>
+        <input v-model="formData.name" type="text" id="name" required />
       </div>
+
       <div class="input-area">
-        <label for="author">Autor</label>
-        <input v-model="formData.author" type="text" id="author" required />
+        <label for="email">Email</label>
+        <input v-model="formData.email" type="email" id="email" required />
+      </div>
+
+      <div class="input-area">
+        <label for="password">Nova senha</label>
+        <input v-model="formData.password" type="password" id="password" />
       </div>
 
       <div class="input-area">
         <label for="image">Imagem</label>
         <div class="image-input-edit">
           <input type="file" ref="image" id="image" @change="handleImage" />
-          <ImageViewer :url="'uploads/news/' + formData.image" />
+          <ImageViewer :url="'uploads/users/' + formData.image" />
         </div>
       </div>
 
@@ -51,7 +57,7 @@ import ImageViewer from "../../components/ImageViewer.vue";
 import api from "../../services/api.js";
 
 export default {
-  name: "Edit",
+  name: "MyUser",
   components: {
     Button,
     Message,
@@ -61,25 +67,18 @@ export default {
     return {
       formData: {},
       image: null,
-      categories: {},
+      users_levels: {},
     };
-  },
-
-  props: {
-    id: {
-      required: true,
-      type: String,
-    },
   },
 
   mounted() {
     this.$refs.Message.show("Carregando...", "loading");
     api
-      .get("/news/" + this.id)
+      .get("/my_user")
       .then((res) => {
         if (res.status === 200) {
           this.formData = res.data.data;
-          this.loadCategories();
+          this.loadUsersLevels();
         } else {
           console.log(res.statusText);
           this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
@@ -96,13 +95,13 @@ export default {
   },
 
   methods: {
-    loadCategories: function () {
+    loadUsersLevels: function () {
       api
-        .get("/categories")
+        .get("/users_level")
         .then((res) => {
           this.$refs.Message.close(false);
           if (res.status === 200) {
-            this.categories = res.data.data;
+            this.users_levels = res.data.data;
           } else {
             this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");
           }
@@ -136,12 +135,20 @@ export default {
       formData.append("_method", "put");
 
       api
-        .post("/news/" + this.id, formData)
+        .post("/my_user", formData)
         .then((res) => {
           if (res.status === 200) {
             this.$refs.Message.show("Editado com sucesso!", "success");
             this.$refs.image.value = null;
             this.formData.image = res.data.data.image;
+
+            this.$store.dispatch("retrieveUser", {
+              access_token: false,
+              user_level: res.data.data.users_levels_id,
+              user_name: res.data.data.name,
+              user_image: res.data.data.image,
+            });
+
           } else {
             console.log(res.statusText);
             this.$refs.Message.show("Ocorreu algum erro no servidor!", "error");

@@ -7,6 +7,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersLevelController;
+use App\Http\Controllers\GalleryController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,10 +29,11 @@ Route::get('/logout', [AuthController::class, 'logout']);
 }); */
 
 
-Route::group(['middleware' => ['jwtAuth']], function () {
+//rotas que somente o usuario master pode acessar
+Route::group(['middleware' => ['masterUsers']], function () {
 
-    // Lista os perfis de usuários
-    Route::get('/users_level', [UsersLevelController::class, 'index']);
+    //$this->group(['middleware' => 'masterUser'], function () {
+
 
     // Retorna um unico perfil de usuário
     Route::get('/users_level/{id}', [UsersLevelController::class, 'show']);
@@ -59,7 +61,10 @@ Route::group(['middleware' => ['jwtAuth']], function () {
 
     // Exclui o usuário
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
+});
 
+//rotas que qualquer usuario logado pode acessar
+Route::group(['middleware' => ['allUsers']], function () {
     // Lista as notícia
     Route::get('/news', [NewsController::class, 'index']);
 
@@ -89,4 +94,16 @@ Route::group(['middleware' => ['jwtAuth']], function () {
 
     // Exclui a categoria
     Route::delete('/categories/{id}', [CategoriesController::class, 'destroy']);
+
+    // Retorna os dados do usuario logado
+    Route::get('/my_user', [UserController::class, 'my_user']);
+
+    // Atualiza o usuário
+    Route::put('/my_user', [UserController::class, 'update_my_user']);
+
+    // Lista os perfis de usuários
+    Route::get('/users_level', [UsersLevelController::class, 'index']);
+
+    // Atualiza a galeria
+    Route::put('/gallery', [GalleryController::class, 'update']);
 });

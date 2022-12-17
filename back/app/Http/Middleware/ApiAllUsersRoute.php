@@ -6,7 +6,7 @@ use Closure;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
-class ApiProtectedRoute extends BaseMiddleware
+class ApiAllUsersRoute extends BaseMiddleware
 {
     /**
      * Handle an incoming request.

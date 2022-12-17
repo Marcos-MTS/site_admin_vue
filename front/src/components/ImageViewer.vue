@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Icon class="show-icon" @click="show" icon="cil:zoom" width="28" />
+    <Icon class="show-icon" @click="show" icon="cil:zoom" width="22" />
     <div class="modal-background" @click.self="close" v-show="open">
       <div
         class="modal"
         v-bind:style="{ width: modalWidth, height: modalHeight }"
       >
-        <Icon class="btn close" @click="close" icon="ep:circle-close" />
+        <Icon class="btn close" width="35" @click="close" icon="ep:circle-close" />
         <img
           ref="image"
           v-bind:style="{
@@ -184,7 +184,6 @@ export default {
   right: 5px;
   top: 5px;
   color: #ffffff;
-  font-size: 50px;
   background: #0000004d;
   border-radius: 50%;
 }
